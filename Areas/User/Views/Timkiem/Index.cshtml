@@ -1,0 +1,340 @@
+﻿@model QLBH.Models.TimKiemModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="container-Timkiem">
+        <div class="container-Timkiem-item1">
+            <div class="nav-search-filter">
+                <div>
+                    <span class="nav-search-subject">
+                        Kết quả tìm kiếm
+                    </span>
+                    <span>
+                        |
+                    </span>
+                </div>
+                
+            </div>
+            <hr>
+            <div class="search-result">
+
+                <div class="result-main baihat">
+                    @try{
+                        <img src="@Model.BaiHats[0].ANHBH" height="95px">
+                    <div>
+                        <p class="result-main-category">
+                            Bài hát
+                        </p>
+                        <p class="result-main-name">
+                            @Model.BaiHats[0].TENBAIHAT
+
+                        </p>
+                        <p class="result-main-other">
+                            @Model.BaiHats[0].Casi[0].TenNS
+
+                        </p>
+                        </div>
+                    }
+                    catch
+                    {
+                        <p>trinh</p>
+                    }
+
+                    
+                </div>
+
+                <div class="result-main nghesy">
+                    
+                        @try{
+                        <img src="@Model.NgheSis[0].AnhNS" height="95px">
+                        <div>
+                            <p class="result-main-category">
+                                Nghệ Sỹ
+                            </p>
+                            <p class="result-main-name">
+                                @Model.NgheSis[0].TenNS
+                            </p>
+                            <p class="result-main-other">
+
+                            </p>
+                        </div>
+
+                        }
+                        catch
+                        {
+                            <img src="@Model.BaiHats[0].Casi[0].AnhNS" height="95px">
+                            <div>
+                                <p class="result-main-category">
+                                    Nghệ Sỹ
+                                </p>
+                            <p class="result-main-name">
+                                @Model.BaiHats[0].Casi[0].TenNS
+                            </p>
+                            <p class="result-main-other">
+
+                            </p>
+                        </div>
+
+                        }
+                </div>
+                <div class="result-main album">
+                    @try{
+                        <img src="@Model.Albums[0].ANHAL" height="95px">
+                        <div>
+                            <p class="result-main-category">
+                                Album
+                            </p>
+                            <p class="result-main-name">
+                                @Model.Albums[0].TENAL
+                            </p>
+                            <p class="result-main-other">
+                                @Model.Albums[0].LUOTQUANTAM
+                            </p>
+                        </div>
+                    }catch{
+                    
+                    <img src="@Model.BaiHats[0].Album.ANHAL" height="95px">
+                        <div>
+                            <p class="result-main-category">
+                                Album
+                            </p>
+                            <p class="result-main-name">
+                                @Model.BaiHats[0].Album.TENAL
+                            </p>
+                            <p class="result-main-other">
+                                @Model.BaiHats[0].Album.LUOTQUANTAM
+
+                            </p>
+                        </div>
+                    }
+                    
+                </div>
+            </div>
+            <div class="result-subject">
+                <p class="subject">
+                    Bài hát
+                </p>
+                <p class="tatca">
+                    <span>Tất cả &nbsp;<i class="arrow glyphicon glyphicon-chevron-right"></i></span>
+                </p>
+
+            </div>
+            <div>
+                <div class="result-baihat-item item-left">
+                    
+                    @for(int i = 0; i < Model.BaiHats.Count; i = i + 2)
+                    {
+                        <div class="result-baihat-detail">
+                            <div style="flex-basis:70%" class="result-baihat-img-name">
+                                <img src="@Model.BaiHats[i].ANHBH" width="80px">
+                                <div class="result-baihat-img-name-detail">
+                                    <p class="result-baihat-name">
+                                        @Model.BaiHats[i].TENBAIHAT
+                                    </p>
+                                    <p class="result-baihat-name-other">
+                                        @Model.BaiHats[i].Casi[0].TenNS
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="result-baihat-time-option">
+                                <p>
+                                    @Model.BaiHats[i].THOILUONG
+                                </p>
+                                <span id="icon-option" class="icon-main"><i class="fa-solid fa-ellipsis"></i></span>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="result-baihat-item item-right">
+                    @for(int i = 1; i < Model.BaiHats.Count; i = i+ 2)
+                    {
+                        <div class="result-baihat-detail">
+                            <div style="flex-basis:70%" class="result-baihat-img-name">
+                                <img src="@Model.BaiHats[i].ANHBH" width="80px">
+                                <div class="result-baihat-img-name-detail">
+                                    <p class="result-baihat-name">
+                                        @Model.BaiHats[i].TENBAIHAT
+
+                                    </p>
+                                    <p class="result-baihat-name-other">
+                                        @Model.BaiHats[i].Casi[0].TenNS
+
+                                    </p>
+
+                                </div>
+                            </div>
+                            <div class="result-baihat-time-option">
+                                <p>
+                                    @Model.BaiHats[i].THOILUONG
+
+                                </p>
+                                <span id="icon-option" class="icon-main"><i class="fa-solid fa-ellipsis"></i></span>
+                            </div>
+                        </div>
+                    }
+                    
+                </div>
+                <div class="clearfix">
+
+                </div>
+            </div>
+
+            <div class="result-subject">
+                <p class="subject">
+                    Playlist/Album
+                </p>
+                <p class="tatca">
+                    <span>Tất cả &nbsp;<i class="arrow glyphicon glyphicon-chevron-right"></i></span>
+                </p>
+            </div>
+            <div class="result-album-content">
+                @foreach(var item in Model.Albums)
+                {
+                    <div class="result-album-item">
+                        <img src="@item.ANHAL" height="200px">
+                        <div>
+                            <p class="result-album-name">
+                                @item.TENAL
+                            </p>
+                            <p class="result-album-other">
+                                @item.NgheSi.TenNS
+                            </p>
+                        </div>
+                    </div>
+                }
+                @foreach(var item in Model.BaiHats)
+                {
+                    <div class="result-album-item">
+                        <img src="@item.Album.ANHAL" height="200px">
+                        <div>
+                            <p class="result-album-name">
+                                @item.Album.TENAL
+                            </p>
+                            <p class="result-album-other">
+                                @item.Album.LUOTQUANTAM
+                            </p>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="result-other">
+                <div class="result-other-content">
+                    <div class="result-subject">
+                        <p class="subject">
+                            Ca sỹ
+                        </p>
+                        <p class="tatca">
+                            <span>Tất cả &nbsp;<i class="arrow glyphicon glyphicon-chevron-right"></i></span>
+                        </p>
+                    </div>
+                    <div class="search-result-wrap">
+                        @foreach(var item in Model.NgheSis)
+                        {
+                            <div class="result-other-detail">
+                                <img src="@item.AnhNS" width="150px">
+                                <p class="result-nghesy-name">
+                                    @item.TenNS
+                                </p>
+                                <p class="result-nghesy-quantam">
+                                    48 quan tâm
+                                </p>
+                                <p id="btn-quantam" class="quantam-btn">
+                                    Quan tâm &nbsp;<span><i class="fa-solid fa-user-plus"></i></span>
+                                </p>
+                            </div>
+                        }
+                        @{
+                            var idNgheSis = new List<int>();
+                            foreach (var item in Model.BaiHats)
+                            {
+                                int kq = 1;
+
+                                foreach(var id in idNgheSis)
+                                {
+                                    if(item.Casi[0].Id == id)
+                                    {
+                                        kq = 0;
+                                    }
+                                }
+                                if(kq == 1)
+                                {
+                                    idNgheSis.Add(item.Casi[0].Id);
+
+                                    <div class="result-other-detail">
+                                        <img src="@item.Casi[0].AnhNS" width="150px">
+                                        <p class="result-nghesy-name">
+                                            @item.Casi[0].TenNS
+                                        </p>
+                                        <p class="result-nghesy-quantam">
+                                            48 quan tâm
+                                        </p>
+                                        <p id="btn-quantam" class="quantam-btn">
+                                            Quan tâm &nbsp;<span><i class="fa-solid fa-user-plus"></i></span>
+                                        </p>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-Timkiem-item2">
+            <div class="ChuDe-subject">
+                Chủ đề
+            </div>
+            <div>
+                <div class="ChuDe-content ChuDe-content-item1">
+                    <img src="https://media.istockphoto.com/photos/summer-romance-picture-id1128009064?k=6&m=1128009064&s=170667a&w=0&h=6gcaMXWIZRZojN36OxYDbsu7NjFEt6Q7gEVpDT9oxCY="/>
+                    <span class="ChuDe-detail">
+                        ROMANCE
+                    </span>
+                </div>
+                <div class="ChuDe-content ChuDe-content-item2">
+                    <span class="ChuDe-detail">
+                        DANCE
+                    </span>
+                </div>
+                <div class="ChuDe-content ChuDe-content-item3">
+                    <span class="ChuDe-detail">
+                        SLEEP
+                    </span>
+                </div>
+                <div class="ChuDe-content ChuDe-content-item4">
+                    <span class="ChuDe-detail">
+                        CHILDREN
+                    </span>
+                </div>
+                <div class="ChuDe-content ChuDe-content-item5">
+                    <span class="ChuDe-detail">
+                        OTHER
+                    </span>
+                </div>
+            </div>
+            
+            <div class="ChuDe-subject">
+                Quốc gia
+            </div>
+            <div class="quocgia-content">
+                <ul>
+                    <li class="quocgia-content-item">
+                        V-Pop
+                    </li>
+                    <li class="quocgia-content-item">
+                        K-Pop
+                    </li>
+                    <li class="quocgia-content-item">
+                        Trung Hoa
+                    </li>
+                    <li class="quocgia-content-item">
+                        US - UK
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

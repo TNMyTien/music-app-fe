@@ -1,0 +1,275 @@
+﻿@model QLBH.Models.NgheSiViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+    //int id = ViewBag.id;
+}
+
+<link href="~/theme/styles/personal.css" rel="stylesheet" />
+<script type="text/javascript">
+    //	window.addEventListener("resize", function() {
+    //		"use strict"; window.location.reload();
+    //	});
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+        /////// Prevent closing from click inside dropdown
+        document.querySelectorAll('.dropdown-menu').forEach(function (element) {
+            element.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        })
+
+
+
+        // make it as accordion for smaller screens
+        if (window.innerWidth < 992) {
+
+            // close all inner dropdowns when parent is closed
+            document.querySelectorAll('.navbar .dropdown').forEach(function (everydropdown) {
+                everydropdown.addEventListener('hidden.bs.dropdown', function () {
+                    // after dropdown is hidden, then find all submenus
+                    this.querySelectorAll('.submenu').forEach(function (everysubmenu) {
+                        // hide every submenu as well
+                        everysubmenu.style.display = 'none';
+                    });
+                })
+            });
+
+            document.querySelectorAll('.dropdown-menu a').forEach(function (element) {
+                element.addEventListener('click', function (e) {
+
+                    let nextEl = this.nextElementSibling;
+                    if (nextEl && nextEl.classList.contains('submenu')) {
+                        // prevent opening link if link needs to open dropdown
+                        e.preventDefault();
+                        console.log(nextEl);
+                        if (nextEl.style.display == 'block') {
+                            nextEl.style.display = 'none';
+                        } else {
+                            nextEl.style.display = 'block';
+                        }
+
+                    }
+                });
+            })
+        }
+        // end if innerWidth
+
+    });
+    // DOMContentLoaded  end
+</script>
+<div class="padding-top">
+    <div class="header-artist">
+        <div class="mask  ">
+            <div class="artist-info-general padding">
+                <h1 class="artist-title">@Model.NgheSi.TenNS</h1>
+                <p>
+                    @Model.NgheSi.GioiThieu
+                </p>
+                <button class="play-all">
+                    <i class="fa-solid fa-play"></i>
+                    <span>Phát Nhạc</span>
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div id="page-wrapper">
+        <div class="sings">
+            <div class="tittle-head">
+                <h3 class="tittle">Bài hát</h3>
+                <div class="clearfix"></div>
+            </div>
+            <div class="list-song scrollbar widget-side" id="style-7">
+                <ul class="songs list1">
+                    @{
+                        var i = 0;
+                    }
+                    @foreach(var item in Model.BaiHats)
+                    {
+                        i++;
+                        <li class="main-song" onmouseenter="mouseenterIcon(this)" onmouseleave="mouseleaveIcon(this)">
+                            <div class="row">
+                                <div class="col-md-5 main-song-title">
+                                    <div class="main-song-cover">
+                                        <img class="main-song-img " src="@item.ANHBH" />
+                                        <div class="main-song-play mini-song-play"><i class="fa-solid fa-play"></i></div>
+                                    </div>
+                                    <div class="main-song-text">
+                                        <p>@item.TENBAIHAT</p>
+                                        <p><a href="#" class="caSi">@item.Casi[0].TenNS</a></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <span class="middle">@item.Album.TENAL</span>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div id="song-1" class="icons">
+                                        @{
+                                            if(Model.BaiHatYeuThichs != null)
+                                            {
+                                                int yt = 0;
+                                                foreach (var bhyt in Model.BaiHatYeuThichs)
+                                                {
+                                                    if (item.Id == bhyt.Id)
+                                                    {
+                                                        yt = 1;
+                                                    }
+
+                                                }
+                                                if (yt == 1)
+                                                {
+                                                    using (Html.BeginForm("DelBaiHatYeuThich", "Personal", FormMethod.Post))
+                                                    {
+                                                        <input hidden value="@Html.DisplayFor(modelItem => item.Id)" name="id" id="id" />
+                                                        <button type="submit" name="submit" class="btn_hidden">
+                                                            <span class="middle"><i class="fa-solid fa-heart"></i></span>
+                                                        </button>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    using (Html.BeginForm("AddBaiHatYeuThich", "Personal", FormMethod.Post))
+                                                    {
+                                                        <input hidden value="@Html.DisplayFor(modelItem => item.Id)" name="id" id="id" />
+                                                        <button type="submit" name="submit" class="btn_hidden">
+                                                               <span class="middle "><i class="fa-regular fa-heart "></i></span>
+                                                        </button>
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                using (Html.BeginForm("AddBaiHatYeuThich", "Personal", FormMethod.Post))
+                                                {
+                                                    <input hidden value="@Html.DisplayFor(modelItem => item.Id)" name="id" id="id" />
+                                                    <button type="submit" name="submit" class="btn_hidden">
+                                                        <span class="middle "><i class="fa-regular fa-heart "></i></span>
+                                                    </button>
+                                                }
+                                            }
+
+                                        }
+                                    
+                                        <span class="middle thoiluong">@item.THOILUONG</span>
+                                        <span class="middle"><i class="fa-solid fa-download"></i></span>
+                                        <div class="middle">
+                                            <div class="dropdown">
+                                                <a id="dLabel" role="button" data-toggle="dropdown" class="btn " data-target="#" href="#" style="border: 0px;" >
+                                                    <i class="fa-solid fa-ellipsis"></i>
+                                                </a>
+                                                <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                                                    <li style="padding: 0px"><a href="#">Thêm vào DS phát</a></li>
+
+                                                    <li style="padding: 0px" class="dropdown-submenu">
+                                                        <a tabindex="-1" href="#">
+                                                                    Thêm vào playlist
+                                                        </a>
+
+                                                        <ul class="dropdown-menu" style="right: 100%; left: 0px; ">
+                                                            @if(Model.Playlists != null)
+                                                            {
+                                                                foreach (var pl in Model.Playlists)
+                                                                {
+                                                                    <form action="~/User/Personal/AddBaiHatPlaylist" method="POST" id="form-id">
+                                                                    <li>
+                                                                        <input hidden value="@pl.Id" name="playlistId" id="playlistId" />
+                                                                        <input hidden value="@item.Id" name="baihatId" id="baihatId" />
+                                                                        <button type="submit">@pl.TENPLAYLIST</button>
+                                                                    </li>
+                                                                    </form>
+                                                                }
+                                                            }else
+                                                                {
+                                                                    <li>
+                                                                    @Html.ActionLink("Đăng nhập", "index","Login" , new {@class = "btn btn-primary btn-block" })
+
+                                                                </li>
+
+                                                            }
+                                                                @*@try
+                                                            {
+                                                                foreach(var pl in Model.Playlists)
+                                                                {
+                                                                    <form action="~/User/Personal/AddPlaylist" method="POST" id="form-id">
+                                                                    <li>
+                                                                        <input hidden value="@pl.Id" name="playlistId" id="playlistId" />
+                                                                        <input hidden value="@item.Id" name="playlistId" id="playlistId" />
+                                                                        <button type="submit">@pl.TENPLAYLIST</button>
+                                                                    </li>
+                                                                    </form>
+                                                                }
+                                                                
+                                                            }
+                                                            catch
+                                                            {
+                                                                <li>
+                                                                    @Html.ActionLink("Đăng nhập", "index","Login" , new {@class = "btn btn-primary btn-block" })
+
+                                                                </li>
+
+                                                            }*@
+                                                            @*<form action="~/User/Personal/AddPlaylist" method="POST" id="form-id">
+                                                                <li>
+                                                                    <a tabindex="-1" href="#">Second level</a>
+                                                                    <input hidden value=""/>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#">Second level</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#">Second level</a>
+                                                                </li>
+                                                            </form>*@
+                                                        </ul>
+                                                    </li>
+                                                    <li style="padding: 0px"><a href="#">Some other action</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="albums-artist">
+            <div class="tittle-head">
+                <h3 class="tittle">Albums</h3>
+                <div class="clearfix"> </div>
+            </div>
+            <div class="albums-content">
+                <ul class="ul-albums">
+                    @foreach(var item in Model.Albums){
+                        <li class="main-album">
+                        <div class="img-contain hover-img">
+                            <div class="mask">
+                                    <a href="/user/Album/ChiTietAlbum/@item.Id">
+                                        <i class="fa-regular fa-circle-play"></i>
+
+                                </a>
+                                    @*@Html.ActionLink("Xem thêm", "ChiTietAlbum","Album" , new { id=item.Id  })*@
+                            </div>
+                            <img class="main-album-img " src="@item.ANHAL" />
+                        </div>
+                        <div>
+                            <p class="title-album">@item.TENAL</p>
+                        </div>
+                    </li>
+                    }
+                    
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
